@@ -23,7 +23,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 		SetWindowPos(
 			hwnd,
 			HWND_BOTTOM,
-			-500, 10,
+			posX, posY,
 			0, 0,
 			SWP_NOSIZE
 		);
@@ -32,7 +32,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 	return TRUE;
 }
 
-int main(int argc, char** argv)
+int main(int argc, char* argv[])
 {
 	if (argc != 3)
 	{
@@ -40,8 +40,10 @@ int main(int argc, char** argv)
 		return EXIT_FAILURE;
 	}
 
-	posX = (int)argv[1];
-	posX = (int)argv[2];
+	posX = atoi(argv[1]);
+	posY = atoi(argv[2]);
+
+	std::cout << "Positions: " << posX << " " << posY << std::endl;
 
 	system("control mmsys.cpl sounds");
 	
