@@ -4,12 +4,14 @@
 
 int posX, posY;
 
+WCHAR SEARCH_TITLE[1024];
+
 BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 {
 	WCHAR class_name[1024];
 	WCHAR title[1024];
-	GetClassName(hwnd, class_name, sizeof(class_name));
-	GetWindowText(hwnd, title, sizeof(title));
+	GetClassNameW(hwnd, class_name, sizeof(class_name));
+	GetWindowTextW(hwnd, title, sizeof(title));
 
 	std::wstring wtitle = title;
 
@@ -18,7 +20,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 		wtitle.begin(),
 		towlower);
 
-	if (wtitle == L"sound")
+	if (wtitle == SEARCH_TITLE)
 	{
 		SetWindowPos(
 			hwnd,
@@ -34,14 +36,15 @@ BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam)
 
 int main(int argc, char* argv[])
 {
-	if (argc != 3)
+	if (argc != 4)
 	{
-		printf("Usage %s [position_x] [position_y]", argv[0]);
+		printf("Usage %s [title to search] [position_x] [position_y]", argv[0]);
 		return EXIT_FAILURE;
 	}
 
-	posX = atoi(argv[1]);
-	posY = atoi(argv[2]);
+	swprintf(SEARCH_TITLE, 100, L"%hs", argv[1]);
+	posX = atoi(argv[2]);
+	posY = atoi(argv[3]);
 
 	std::cout << "Positions: " << posX << " " << posY << std::endl;
 
